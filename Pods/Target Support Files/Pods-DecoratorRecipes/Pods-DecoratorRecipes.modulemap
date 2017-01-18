@@ -1,0 +1,6 @@
+framework module Pods_DecoratorRecipes {
+  umbrella header "Pods-DecoratorRecipes-umbrella.h"
+
+  export *
+  module * { export * }
+}
