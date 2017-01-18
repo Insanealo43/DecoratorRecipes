@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		49AC21A31E2FD20F00EE8B7B /* NetworkAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AC21A21E2FD20F00EE8B7B /* NetworkAdapter.swift */; };
+		49AC21A51E2FDAF200EE8B7B /* RecipesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AC21A41E2FDAF200EE8B7B /* RecipesManager.swift */; };
+		49AC21A71E30023000EE8B7B /* Ingredients.json in Resources */ = {isa = PBXBuildFile; fileRef = 49AC21A61E30023000EE8B7B /* Ingredients.json */; };
 		49B36F8B1E2FD11D00D20CE9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B36F8A1E2FD11D00D20CE9 /* AppDelegate.swift */; };
 		49B36F8D1E2FD11E00D20CE9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B36F8C1E2FD11E00D20CE9 /* ViewController.swift */; };
 		49B36F901E2FD11E00D20CE9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 49B36F8E1E2FD11E00D20CE9 /* Main.storyboard */; };
@@ -18,6 +20,8 @@
 
 /* Begin PBXFileReference section */
 		49AC21A21E2FD20F00EE8B7B /* NetworkAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkAdapter.swift; sourceTree = "<group>"; };
+		49AC21A41E2FDAF200EE8B7B /* RecipesManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipesManager.swift; sourceTree = "<group>"; };
+		49AC21A61E30023000EE8B7B /* Ingredients.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Ingredients.json; sourceTree = "<group>"; };
 		49B36F871E2FD11D00D20CE9 /* DecoratorRecipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DecoratorRecipes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		49B36F8A1E2FD11D00D20CE9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		49B36F8C1E2FD11E00D20CE9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -50,6 +54,14 @@
 			name = Networking;
 			sourceTree = "<group>";
 		};
+		49AC21A81E3002E400EE8B7B /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				49AC21A41E2FDAF200EE8B7B /* RecipesManager.swift */,
+			);
+			name = Managers;
+			sourceTree = "<group>";
+		};
 		49B36F7E1E2FD11D00D20CE9 = {
 			isa = PBXGroup;
 			children = (
@@ -71,6 +83,7 @@
 		49B36F891E2FD11D00D20CE9 /* DecoratorRecipes */ = {
 			isa = PBXGroup;
 			children = (
+				49AC21A81E3002E400EE8B7B /* Managers */,
 				49AC21A11E2FD1F300EE8B7B /* Networking */,
 				49B36F8A1E2FD11D00D20CE9 /* AppDelegate.swift */,
 				49B36F8C1E2FD11E00D20CE9 /* ViewController.swift */,
@@ -78,6 +91,7 @@
 				49B36F911E2FD11E00D20CE9 /* Assets.xcassets */,
 				49B36F931E2FD11E00D20CE9 /* LaunchScreen.storyboard */,
 				49B36F961E2FD11E00D20CE9 /* Info.plist */,
+				49AC21A61E30023000EE8B7B /* Ingredients.json */,
 			);
 			path = DecoratorRecipes;
 			sourceTree = "<group>";
@@ -162,6 +176,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49AC21A71E30023000EE8B7B /* Ingredients.json in Resources */,
 				49B36F951E2FD11E00D20CE9 /* LaunchScreen.storyboard in Resources */,
 				49B36F921E2FD11E00D20CE9 /* Assets.xcassets in Resources */,
 				49B36F901E2FD11E00D20CE9 /* Main.storyboard in Resources */,
@@ -224,6 +239,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				49AC21A31E2FD20F00EE8B7B /* NetworkAdapter.swift in Sources */,
+				49AC21A51E2FDAF200EE8B7B /* RecipesManager.swift in Sources */,
 				49B36F8D1E2FD11E00D20CE9 /* ViewController.swift in Sources */,
 				49B36F8B1E2FD11D00D20CE9 /* AppDelegate.swift in Sources */,
 			);
