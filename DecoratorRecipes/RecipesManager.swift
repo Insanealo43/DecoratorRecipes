@@ -86,17 +86,20 @@ class RecipesManager {
     }
     
     func fetchRecipes(forIngredient name:String, handler: @escaping ([StringObject]) -> Void) {
+        // Normalize the ingredient name
+        let nameLowercased = name.lowercased()
+        
         // Check if the ingredient already has associated recipes
-        if let cachedRecipes = self.ingredientRecipes[name] {
+        if let cachedRecipes = self.ingredientRecipes[nameLowercased] {
             handler(cachedRecipes)
             return
         }
         
         // Fetch recipes for the ingredient
-        self.getRecipes(ingredients: [name]){ response in
+        self.getRecipes(ingredients: [nameLowercased]){ response in
             if let fetchedRecipes = response {
                 // Find the most similar recipes
-                self.findSimilarRecipes(ingredient: name, recipes: fetchedRecipes)
+                self.findSimilarRecipes(ingredient: nameLowercased, recipes: fetchedRecipes)
                 
                 // Cache the fetched recipes
                 self.ingredientRecipes[name] = fetchedRecipes
@@ -109,38 +112,17 @@ class RecipesManager {
         var combinatoryWeightMap = [String:Int]()
         for (curIndex, curRecipe) in recipes.enumerated() {
             // Get the subarray for the recipes after the current one
-            let remainingRecipes = Array(recipes[(curIndex+1)...(recipes.count-curIndex)])
+            let nextIndex = curIndex + 1
+            let lastIndex = recipes.count - 1
+            let remainingRecipes = nextIndex < lastIndex ? Array(recipes[nextIndex...lastIndex]) : []
             
             // Grab the combinatory weights for the recipes
             combinatoryWeightMap = combinatoryWeightMap + self.sharedIngredientWeights(baseIngredient: ingredient, offsetIndex: curIndex, recipe: curRecipe, otherRecipes: remainingRecipes)
         }
         
         // TODO: Print to console
-        
+        print("Combinatory Weight Map: \(combinatoryWeightMap)")
     }
-    
-    /*internal func sortByMostShared(ingredient:String, recipes:[StringObject]) -> [StringObject] {
-        var ingredientRecipesMap = [String:[StringObject]]()
-        recipes.forEach({ recipeObject in
-            if let ingredientString = recipeObject[RecipeKeys.ingredients] {
-                // Map the ingredients
-                ingredientString.components(separatedBy: ", ").forEach({ name in
-                    // Increment the count
-                    //var updatedCount = (ingredientCountMap[name] ?? 0) + 1
-                    //ingredientCountMap[name] = updatedCount
-                    
-                    // Map the recipe
-                    var recipesArray = ingredientRecipesMap[name] ?? []
-                    recipesArray.append(recipeObject)
-                    ingredientRecipesMap[name] = recipesArray
-                })
-                
-                // Sort the
-            }
-        })
-        
-        return []
-    }*/
     
     internal func sharedIngredientWeights(baseIngredient:String, offsetIndex:Int, recipe:StringObject, otherRecipes:[StringObject]) -> [String:Int] {
         // No other recipes to compare against, or invalid mapping index
