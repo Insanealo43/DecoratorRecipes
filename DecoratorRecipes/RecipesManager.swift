@@ -95,10 +95,90 @@ class RecipesManager {
         // Fetch recipes for the ingredient
         self.getRecipes(ingredients: [name]){ response in
             if let fetchedRecipes = response {
+                // Find the most similar recipes
+                self.findSimilarRecipes(ingredient: name, recipes: fetchedRecipes)
+                
                 // Cache the fetched recipes
                 self.ingredientRecipes[name] = fetchedRecipes
             }
             handler(response ?? [StringObject]())
         }
+    }
+    
+    internal func findSimilarRecipes(ingredient:String, recipes:[StringObject]) {
+        var combinatoryWeightMap = [String:Int]()
+        for (curIndex, curRecipe) in recipes.enumerated() {
+            // Get the subarray for the recipes after the current one
+            let remainingRecipes = Array(recipes[(curIndex+1)...(recipes.count-curIndex)])
+            
+            // Grab the combinatory weights for the recipes
+            combinatoryWeightMap = combinatoryWeightMap + self.sharedIngredientWeights(baseIngredient: ingredient, offsetIndex: curIndex, recipe: curRecipe, otherRecipes: remainingRecipes)
+        }
+        
+        // TODO: Print to console
+        
+    }
+    
+    /*internal func sortByMostShared(ingredient:String, recipes:[StringObject]) -> [StringObject] {
+        var ingredientRecipesMap = [String:[StringObject]]()
+        recipes.forEach({ recipeObject in
+            if let ingredientString = recipeObject[RecipeKeys.ingredients] {
+                // Map the ingredients
+                ingredientString.components(separatedBy: ", ").forEach({ name in
+                    // Increment the count
+                    //var updatedCount = (ingredientCountMap[name] ?? 0) + 1
+                    //ingredientCountMap[name] = updatedCount
+                    
+                    // Map the recipe
+                    var recipesArray = ingredientRecipesMap[name] ?? []
+                    recipesArray.append(recipeObject)
+                    ingredientRecipesMap[name] = recipesArray
+                })
+                
+                // Sort the
+            }
+        })
+        
+        return []
+    }*/
+    
+    internal func sharedIngredientWeights(baseIngredient:String, offsetIndex:Int, recipe:StringObject, otherRecipes:[StringObject]) -> [String:Int] {
+        // No other recipes to compare against, or invalid mapping index
+        if otherRecipes.count == 0 || offsetIndex < 0 {
+            return [:]
+        }
+        
+        // No Ingredients to compare, or doesn't contain base ingredient
+        let ingredientString = recipe[RecipeKeys.ingredients] ?? ""
+        let comparisonIngredients = ingredientString.components(separatedBy: ", ")
+        if comparisonIngredients.count == 0 || !ingredientString.contains(baseIngredient) {
+            return [:]
+        }
+        
+        // Map the inclusive ingredient combinations
+        var combinatoryRecipeWeightMap = [String:Int]()
+        for (relativeIndex, recipeCounterpart) in otherRecipes.enumerated() {
+            
+            // Ensure the counterpart recipe contains the base ingredient
+            let recipeCounterpartString = recipeCounterpart[RecipeKeys.ingredients] ?? ""
+            if recipeCounterpartString.contains(baseIngredient) {
+                
+                // Keep track of the matched ingredients' count
+                var matchWeight = 0
+                comparisonIngredients.forEach({ ingredient in
+                    if recipeCounterpartString.contains(ingredient) {
+                        // Increment the weight for every matched ingredient
+                        matchWeight += 1
+                    }
+                })
+                
+                // Encode the occurrence weight for the recipe combination
+                let mappingIndex = offsetIndex + relativeIndex + 1
+                let indiciesKey = "\(offsetIndex):\(mappingIndex)"
+                combinatoryRecipeWeightMap[indiciesKey] = matchWeight
+            }
+        }
+        
+        return combinatoryRecipeWeightMap
     }
 }

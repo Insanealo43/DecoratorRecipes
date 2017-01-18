@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let ingredients = RecipesManager.sharedInstance.loadIngredients()
         print("Ingrdients JSON: \(ingredients)")
         
-        let ingredientName = ingredients.first?[IngredientKeys.name] ?? "omelet"
+        let ingredientName = ingredients.first?[IngredientKeys.name] ?? "salt"
         RecipesManager.sharedInstance.fetchRecipes(forIngredient: ingredientName){ recipes in
             print("\(ingredientName.capitalized) Recipes: \(recipes)")
         }

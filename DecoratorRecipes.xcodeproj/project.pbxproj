@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4973F6AD1E30293F00EFAA10 /* Dictionary+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4973F6AC1E30293F00EFAA10 /* Dictionary+Extensions.swift */; };
 		49AC21A31E2FD20F00EE8B7B /* NetworkAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AC21A21E2FD20F00EE8B7B /* NetworkAdapter.swift */; };
 		49AC21A51E2FDAF200EE8B7B /* RecipesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49AC21A41E2FDAF200EE8B7B /* RecipesManager.swift */; };
 		49AC21A71E30023000EE8B7B /* Ingredients.json in Resources */ = {isa = PBXBuildFile; fileRef = 49AC21A61E30023000EE8B7B /* Ingredients.json */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4973F6AC1E30293F00EFAA10 /* Dictionary+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extensions.swift"; sourceTree = "<group>"; };
 		49AC21A21E2FD20F00EE8B7B /* NetworkAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkAdapter.swift; sourceTree = "<group>"; };
 		49AC21A41E2FDAF200EE8B7B /* RecipesManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipesManager.swift; sourceTree = "<group>"; };
 		49AC21A61E30023000EE8B7B /* Ingredients.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Ingredients.json; sourceTree = "<group>"; };
@@ -46,6 +48,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4973F6AB1E30293600EFAA10 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				4973F6AC1E30293F00EFAA10 /* Dictionary+Extensions.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
 		49AC21A11E2FD1F300EE8B7B /* Networking */ = {
 			isa = PBXGroup;
 			children = (
@@ -83,6 +93,7 @@
 		49B36F891E2FD11D00D20CE9 /* DecoratorRecipes */ = {
 			isa = PBXGroup;
 			children = (
+				4973F6AB1E30293600EFAA10 /* Extensions */,
 				49AC21A11E2FD1F300EE8B7B /* Networking */,
 				49AC21A81E3002E400EE8B7B /* Managers */,
 				49B36F8A1E2FD11D00D20CE9 /* AppDelegate.swift */,
@@ -238,6 +249,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4973F6AD1E30293F00EFAA10 /* Dictionary+Extensions.swift in Sources */,
 				49AC21A31E2FD20F00EE8B7B /* NetworkAdapter.swift in Sources */,
 				49AC21A51E2FDAF200EE8B7B /* RecipesManager.swift in Sources */,
 				49B36F8D1E2FD11E00D20CE9 /* ViewController.swift in Sources */,
