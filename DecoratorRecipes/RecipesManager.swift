@@ -8,7 +8,7 @@
 
 import Foundation
 
-typealias IngredientObject = [String:String]
+typealias StringObject = [String:String]
 
 public enum JSONFiles:String {
     case Ingredients = "Ingredients"
@@ -19,13 +19,22 @@ public enum IngredientKeys {
     static let imageUrl = "imageUrl"
 }
 
+public enum RecipeKeys {
+    static let title = "title"
+    static let thumbnail = "thumbnail"
+    static let ingredients = "ingredients"
+}
+
+
 class RecipesManager {
     static let sharedInstance = RecipesManager()
-    var ingredients = [IngredientObject]()
+    var ingredients = [StringObject]()
+    var ingredientRecipes = [String:[StringObject]]()
     
     internal enum Constants {
         static let Ingredients = "Ingredients"
         static let jsonExt = "json"
+        static let results = "results"
     }
     
     func loadJson(forFilename fileName: String) -> JSONObject? {
@@ -46,9 +55,9 @@ class RecipesManager {
     }
     
     // MARK - Ingredients
-    func loadIngredients() -> [IngredientObject] {
+    func loadIngredients() -> [StringObject] {
         if let loadedJSON = self.loadJson(forFilename: JSONFiles.Ingredients.rawValue),
-            let ingredientsJSON = loadedJSON[Constants.Ingredients] as? [IngredientObject] {
+            let ingredientsJSON = loadedJSON[Constants.Ingredients] as? [StringObject] {
             self.ingredients = ingredientsJSON
         }
         
@@ -57,7 +66,7 @@ class RecipesManager {
     
     // MARK - Recipes
     func getRecipes(query:String? = nil, ingredients:[String]? = nil, page:Int? = nil,
-                    handler: (JSONObject) -> Void) {
+                    handler: @escaping ([StringObject]?) -> Void) {
         var params = JSONObject()
         if let q = query {
             params["q"] = q as AnyObject
@@ -70,14 +79,26 @@ class RecipesManager {
         }
         
         let url = Urls.RecipePuppyAPI.rawValue
-        self.request(url: url, method: .post, parameters: params){ response in
-            print("Recipes Response: \(response)")
+        NetworkAdapter.sharedInstance.request(url: url, method: .post, parameters: params){ response in
+            let recipeObjects = response?[Constants.results] as? [StringObject]
+            handler(recipeObjects)
         }
     }
     
-    func fetchRecipes(forIngredient name:String, handler: ([JSONObject]) -> Void) {
+    func fetchRecipes(forIngredient name:String, handler: @escaping ([StringObject]) -> Void) {
+        // Check if the ingredient already has associated recipes
+        if let cachedRecipes = self.ingredientRecipes[name] {
+            handler(cachedRecipes)
+            return
+        }
+        
+        // Fetch recipes for the ingredient
         self.getRecipes(ingredients: [name]){ response in
-            
+            if let fetchedRecipes = response {
+                // Cache the fetched recipes
+                self.ingredientRecipes[name] = fetchedRecipes
+            }
+            handler(response ?? [StringObject]())
         }
     }
 }

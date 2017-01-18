@@ -17,12 +17,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     
         // TEST Recipes API
-        NetworkAdapter.sharedInstance.getRecipes(query: "omelet", ingredients: ["onions", "garlic"]){ response in
-            
-        }
-        
         let ingredients = RecipesManager.sharedInstance.loadIngredients()
         print("Ingrdients JSON: \(ingredients)")
+        
+        let ingredientName = ingredients.first?[IngredientKeys.name] ?? "omelet"
+        RecipesManager.sharedInstance.fetchRecipes(forIngredient: ingredientName){ recipes in
+            print("\(ingredientName.capitalized) Recipes: \(recipes)")
+        }
         
         return true
     }
