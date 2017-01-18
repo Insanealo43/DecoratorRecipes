@@ -83,8 +83,8 @@
 		49B36F891E2FD11D00D20CE9 /* DecoratorRecipes */ = {
 			isa = PBXGroup;
 			children = (
-				49AC21A81E3002E400EE8B7B /* Managers */,
 				49AC21A11E2FD1F300EE8B7B /* Networking */,
+				49AC21A81E3002E400EE8B7B /* Managers */,
 				49B36F8A1E2FD11D00D20CE9 /* AppDelegate.swift */,
 				49B36F8C1E2FD11E00D20CE9 /* ViewController.swift */,
 				49B36F8E1E2FD11E00D20CE9 /* Main.storyboard */,

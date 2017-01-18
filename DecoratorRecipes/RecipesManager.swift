@@ -45,6 +45,7 @@ class RecipesManager {
         return nil
     }
     
+    // MARK - Ingredients
     func loadIngredients() -> [IngredientObject] {
         if let loadedJSON = self.loadJson(forFilename: JSONFiles.Ingredients.rawValue),
             let ingredientsJSON = loadedJSON[Constants.Ingredients] as? [IngredientObject] {
@@ -52,5 +53,31 @@ class RecipesManager {
         }
         
         return self.ingredients
+    }
+    
+    // MARK - Recipes
+    func getRecipes(query:String? = nil, ingredients:[String]? = nil, page:Int? = nil,
+                    handler: (JSONObject) -> Void) {
+        var params = JSONObject()
+        if let q = query {
+            params["q"] = q as AnyObject
+        }
+        if let i = ingredients?.joined(separator: ",") {
+            params["i"] = i as AnyObject
+        }
+        if let p = page {
+            params["p"] = p as AnyObject
+        }
+        
+        let url = Urls.RecipePuppyAPI.rawValue
+        self.request(url: url, method: .post, parameters: params){ response in
+            print("Recipes Response: \(response)")
+        }
+    }
+    
+    func fetchRecipes(forIngredient name:String, handler: ([JSONObject]) -> Void) {
+        self.getRecipes(ingredients: [name]){ response in
+            
+        }
     }
 }
