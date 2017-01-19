@@ -17,10 +17,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     
         // TEST Recipes API
-        let ingredients = RecipesManager.sharedInstance.loadIngredients()
-        print("Ingrdients JSON: \(ingredients)")
+        RecipesManager.sharedInstance.loadIngredients()
+        print("Ingrdients JSON: \(RecipesManager.sharedInstance.ingredients)")
         
-        let ingredientName = ingredients.first?[IngredientKeys.name] ?? "salt"
+        let ingredientName = RecipesManager.sharedInstance.ingredients.first?[IngredientKeys.name] ?? "salt"
         RecipesManager.sharedInstance.fetchRecipes(forIngredient: ingredientName){ recipes in
             print("\(ingredientName.capitalized) Recipes: \(recipes)")
         }

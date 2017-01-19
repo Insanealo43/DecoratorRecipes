@@ -55,13 +55,11 @@ class RecipesManager {
     }
     
     // MARK - Ingredients
-    func loadIngredients() -> [StringObject] {
+    func loadIngredients() {
         if let loadedJSON = self.loadJson(forFilename: JSONFiles.Ingredients.rawValue),
             let ingredientsJSON = loadedJSON[Constants.Ingredients] as? [StringObject] {
             self.ingredients = ingredientsJSON
         }
-        
-        return self.ingredients
     }
     
     // MARK - Recipes
