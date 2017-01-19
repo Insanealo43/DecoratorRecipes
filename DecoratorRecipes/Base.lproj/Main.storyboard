@@ -79,7 +79,7 @@
                                                             <color key="backgroundColor" red="0.4039215686" green="0.78823529410000004" blue="0.95294117649999999" alpha="0.2458797089041096" colorSpace="calibratedRGB"/>
                                                         </view>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9qJ-dQ-Ftm">
-                                                            <rect key="frame" x="-0.5" y="10" width="171" height="27"/>
+                                                            <rect key="frame" x="-0.5" y="0.0" width="171" height="27"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="Jr5-1H-d3E">
                                                                     <rect key="frame" x="5" y="0.5" width="161" height="27"/>
@@ -109,7 +109,7 @@
                                                     <constraint firstItem="9qJ-dQ-Ftm" firstAttribute="width" secondItem="UtP-82-FPa" secondAttribute="width" id="mM5-Tc-qZn"/>
                                                     <constraint firstItem="UtP-82-FPa" firstAttribute="width" secondItem="3uN-bz-IxW" secondAttribute="width" id="sZb-Hi-gxL"/>
                                                     <constraint firstItem="nuL-FD-WEK" firstAttribute="centerY" secondItem="UtP-82-FPa" secondAttribute="centerY" id="sgp-ME-ZD6"/>
-                                                    <constraint firstItem="9qJ-dQ-Ftm" firstAttribute="top" secondItem="UtP-82-FPa" secondAttribute="top" constant="10" id="xZI-2b-yHt"/>
+                                                    <constraint firstItem="9qJ-dQ-Ftm" firstAttribute="top" secondItem="UtP-82-FPa" secondAttribute="top" id="xZI-2b-yHt"/>
                                                     <constraint firstItem="nuL-FD-WEK" firstAttribute="width" secondItem="UtP-82-FPa" secondAttribute="width" id="zUD-0Z-kNI"/>
                                                     <constraint firstItem="UtP-82-FPa" firstAttribute="centerX" secondItem="3uN-bz-IxW" secondAttribute="centerX" id="zkS-uV-nh5"/>
                                                 </constraints>

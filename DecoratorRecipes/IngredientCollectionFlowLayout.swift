@@ -28,8 +28,11 @@ class IngredientCollectionFlowLayout: UICollectionViewFlowLayout {
     override var itemSize: CGSize {
         set { }
         get {
-            let itemWidth = (self.collectionView!.frame.size.width - (CGFloat(numCols) - 1)*(CGFloat(itemSpacing))) / CGFloat(numCols)
-            return CGSize.init(width: itemWidth, height: itemWidth)
+            if let collection = self.collectionView {
+                let itemWidth = (collection.frame.size.width - (CGFloat(numCols) - 1)*(CGFloat(itemSpacing))) / CGFloat(numCols)
+                return CGSize.init(width: itemWidth, height: collection.frame.size.height)
+            }
+            return CGSize.zero
         }
     }
 
