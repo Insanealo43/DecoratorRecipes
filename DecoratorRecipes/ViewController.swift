@@ -13,6 +13,12 @@ class ViewController: UIViewController {
     internal enum Constants {
         static let ingredientCellId = "ingredientCollectionViewCell"
         static let recipeCellId = "recipeTableViewCell"
+        static let animationDuration = 0.5
+    }
+    
+    internal enum Visibility {
+        case OntoScreen
+        case OffScreen
     }
     
     @IBOutlet weak var activityView: NVActivityIndicatorView!
@@ -31,12 +37,15 @@ class ViewController: UIViewController {
                 } else {
                     // Animate tableview onto screen
                     self.fetchRecipes(forIndexPath: indexPath)
+                    self.animateRecipesTable(state: .OntoScreen)
                 }
                 
             } else {
                 if oldValue != nil {
                     // Animate tableview off the screen
-                    self.currentRecipes = []
+                    self.animateRecipesTable(state: .OffScreen) {
+                        self.currentRecipes = []
+                    }
                 }
             }
         }
@@ -49,6 +58,7 @@ class ViewController: UIViewController {
     var currentRecipes = [StringObject]() {
         didSet {
             DispatchQueue.main.async {
+                self.recipesTableView.setContentOffset(CGPoint.zero, animated: false)
                 self.recipesTableView.reloadData()
             }
         }
@@ -56,8 +66,7 @@ class ViewController: UIViewController {
 
     /*override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //self.activityView.startAnimating()
+        self.activityView.color = UIColor.black
     }*/
     
     internal func fetchRecipes(forIndexPath indexPath:IndexPath) {
@@ -67,6 +76,29 @@ class ViewController: UIViewController {
                 self.activityView.stopAnimating()
                 self.currentRecipes = recipes
             }
+        }
+    }
+    
+    internal func animateRecipesTable(state:Visibility, finished: ((Void) -> Void)? = nil) {
+        switch state {
+        case Visibility.OntoScreen:
+            UIView.animate(withDuration: Constants.animationDuration, animations: {
+                self.tableHeightConstraint.constant = self.containerView.frame.size.height
+                self.view.layoutIfNeeded()
+                
+            }, completion:{ completed in
+                finished?()
+            })
+            break
+        case Visibility.OffScreen:
+            UIView.animate(withDuration: Constants.animationDuration, animations: {
+                self.tableHeightConstraint.constant = 0
+                self.view.layoutIfNeeded()
+                
+            }, completion:{ completed in
+                finished?()
+            })
+            break
         }
     }
 }
