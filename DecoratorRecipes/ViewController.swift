@@ -14,6 +14,7 @@ class ViewController: UIViewController {
         static let ingredientCellId = "ingredientCollectionViewCell"
         static let recipeCellId = "recipeTableViewCell"
         static let animationDuration = 0.5
+        static let defaultNavTitle = "Ingredients"
     }
     
     internal enum Visibility {
@@ -43,6 +44,7 @@ class ViewController: UIViewController {
             } else {
                 if oldValue != nil {
                     // Animate tableview off the screen
+                    //self.navigationItem.title = Constants.defaultNavTitle
                     self.animateRecipesTable(state: .OffScreen) {
                         self.currentRecipes = []
                     }
@@ -57,18 +59,21 @@ class ViewController: UIViewController {
     
     var currentRecipes = [StringObject]() {
         didSet {
-            DispatchQueue.main.async {
-                self.recipesTableView.setContentOffset(CGPoint.zero, animated: false)
-                self.recipesTableView.reloadData()
+            // Update the navbar title
+            if let indexPath = self.selectedIndexPath,
+                let ingredientName = self.ingredients[indexPath.row][IngredientKeys.name] {
+                self.navigationItem.title = "\(currentRecipes.count) \(ingredientName) Recipes"
+                
+            } else {
+                self.navigationItem.title = Constants.defaultNavTitle
             }
+            
+            // Reload the recipes table, and reset the content offset
+            self.recipesTableView.setContentOffset(CGPoint.zero, animated: false)
+            self.recipesTableView.reloadData()
         }
     }
 
-    /*override func viewDidLoad() {
-        super.viewDidLoad()
-        self.activityView.color = UIColor.black
-    }*/
-    
     internal func fetchRecipes(forIndexPath indexPath:IndexPath) {
         if let selectedIngredient = self.ingredients[indexPath.row][IngredientKeys.name] {
             self.activityView.startAnimating()
