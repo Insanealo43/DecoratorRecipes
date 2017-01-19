@@ -126,8 +126,29 @@ class RecipesManager {
             combinatoryWeightMap = combinatoryWeightMap + self.sharedIngredientWeights(baseIngredient: ingredient, offsetIndex: curIndex, recipe: curRecipe, otherRecipes: remainingRecipes)
         }
         
-        // TODO: Print to console
-        print("Combinatory Weight Map: \(combinatoryWeightMap)")
+        // Print the best-matched recipes to the console
+        //print("Combinatory Weight Map: \(combinatoryWeightMap)")
+        var highestWeight = 0
+        var keyForWeight:String?
+        for (indiciesKey, sharedIngredientsCount) in combinatoryWeightMap {
+            if highestWeight < sharedIngredientsCount {
+                // Found a higher weighted recipes' pairing
+                highestWeight = sharedIngredientsCount
+                keyForWeight = indiciesKey
+            }
+        }
+        
+        if let indicies = keyForWeight?.components(separatedBy: ":"),
+            indicies.count == 2,
+            let recipeIndex = Int(indicies.first ?? ""),
+            let otherRecipeIndex = Int(indicies.last ?? ""),
+            recipes.indices.contains(recipeIndex), recipes.indices.contains(otherRecipeIndex) {
+            // Print out the two recipes that have the most ingredients in common
+            let recipe = recipes[recipeIndex]
+            let otherRecipe = recipes[otherRecipeIndex]
+            
+            print("Recipes using the Ingredient(\(ingredient) that have the most shared ingredients are: \nRecipe #1:\(recipe) \nRecipe #2:\(otherRecipe))")
+        }
     }
     
     internal func sharedIngredientWeights(baseIngredient:String, offsetIndex:Int, recipe:StringObject, otherRecipes:[StringObject]) -> [String:Int] {

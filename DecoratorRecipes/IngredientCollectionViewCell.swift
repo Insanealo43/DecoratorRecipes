@@ -28,11 +28,9 @@ class IngredientCollectionViewCell: UICollectionViewCell {
             if newValue {
                 super.isSelected = true
                 self.selectionOverlay.isHidden = false
-                print("selected")
             } else if newValue == false {
                 super.isSelected = false
                 self.selectionOverlay.isHidden = true
-                print("deselected")
             }
         }
     }

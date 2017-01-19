@@ -13,8 +13,8 @@ class ViewController: UIViewController {
     internal enum Constants {
         static let ingredientCellId = "ingredientCollectionViewCell"
         static let recipeCellId = "recipeTableViewCell"
-        static let animationDuration = 0.5
         static let defaultNavTitle = "Ingredients"
+        static let animationDuration = 0.5
     }
     
     internal enum Visibility {
