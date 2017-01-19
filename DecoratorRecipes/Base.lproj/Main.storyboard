@@ -58,6 +58,10 @@
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UtP-82-FPa">
                                                             <rect key="frame" x="-0.5" y="0.0" width="171" height="134"/>
                                                         </imageView>
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nuL-FD-WEK">
+                                                            <rect key="frame" x="-1" y="0.0" width="171" height="134"/>
+                                                            <color key="backgroundColor" red="0.4039215686" green="0.78823529410000004" blue="0.95294117649999999" alpha="0.2458797089041096" colorSpace="calibratedRGB"/>
+                                                        </view>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9qJ-dQ-Ftm">
                                                             <rect key="frame" x="-0.5" y="10" width="171" height="27"/>
                                                             <subviews>
@@ -80,18 +84,23 @@
                                                 </view>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
+                                                    <constraint firstItem="nuL-FD-WEK" firstAttribute="height" secondItem="UtP-82-FPa" secondAttribute="height" id="6Af-Wk-1JM"/>
                                                     <constraint firstItem="UtP-82-FPa" firstAttribute="height" secondItem="3uN-bz-IxW" secondAttribute="height" id="8zp-co-dlZ"/>
                                                     <constraint firstItem="UtP-82-FPa" firstAttribute="centerY" secondItem="3uN-bz-IxW" secondAttribute="centerY" id="SXd-ku-F0R"/>
+                                                    <constraint firstItem="nuL-FD-WEK" firstAttribute="centerX" secondItem="UtP-82-FPa" secondAttribute="centerX" id="U4i-ln-LV8"/>
                                                     <constraint firstItem="9qJ-dQ-Ftm" firstAttribute="centerX" secondItem="UtP-82-FPa" secondAttribute="centerX" id="VZw-P6-mMV"/>
                                                     <constraint firstItem="9qJ-dQ-Ftm" firstAttribute="height" secondItem="UtP-82-FPa" secondAttribute="height" multiplier="1:5" id="fay-cO-581"/>
                                                     <constraint firstItem="9qJ-dQ-Ftm" firstAttribute="width" secondItem="UtP-82-FPa" secondAttribute="width" id="mM5-Tc-qZn"/>
                                                     <constraint firstItem="UtP-82-FPa" firstAttribute="width" secondItem="3uN-bz-IxW" secondAttribute="width" id="sZb-Hi-gxL"/>
+                                                    <constraint firstItem="nuL-FD-WEK" firstAttribute="centerY" secondItem="UtP-82-FPa" secondAttribute="centerY" id="sgp-ME-ZD6"/>
                                                     <constraint firstItem="9qJ-dQ-Ftm" firstAttribute="top" secondItem="UtP-82-FPa" secondAttribute="top" constant="10" id="xZI-2b-yHt"/>
+                                                    <constraint firstItem="nuL-FD-WEK" firstAttribute="width" secondItem="UtP-82-FPa" secondAttribute="width" id="zUD-0Z-kNI"/>
                                                     <constraint firstItem="UtP-82-FPa" firstAttribute="centerX" secondItem="3uN-bz-IxW" secondAttribute="centerX" id="zkS-uV-nh5"/>
                                                 </constraints>
                                                 <connections>
                                                     <outlet property="imageView" destination="UtP-82-FPa" id="LOO-Yj-w4v"/>
                                                     <outlet property="nameLabel" destination="Jr5-1H-d3E" id="I3O-ZU-Lej"/>
+                                                    <outlet property="selectionOverlay" destination="nuL-FD-WEK" id="7lJ-4F-Nnd"/>
                                                 </connections>
                                             </collectionViewCell>
                                         </cells>

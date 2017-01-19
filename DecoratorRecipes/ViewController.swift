@@ -20,6 +20,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var tableHeightConstraint: NSLayoutConstraint!
     
+    internal var selectedIndexPath:IndexPath?
+    
     var ingredients:[StringObject] {
         get { return RecipesManager.sharedInstance.ingredients }
     }
@@ -27,7 +29,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.activityView.startAnimating()
+        //self.activityView.startAnimating()
     }
     
     
@@ -41,12 +43,27 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let ingredientCell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.ingredientCellId, for: indexPath) as! IngredientCollectionViewCell
         ingredientCell.ingredient = self.ingredients[indexPath.row]
+        ingredientCell.isSelected = indexPath == self.selectedIndexPath
         return ingredientCell
     }
     
-    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: true)
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        var updateIndexPaths = [indexPath]
+        if let previousIndexPath = self.selectedIndexPath {
+            if previousIndexPath == indexPath {
+                self.selectedIndexPath = nil
+                
+            } else {
+                updateIndexPaths.append(previousIndexPath)
+                self.selectedIndexPath = indexPath
+            }
+            
+        } else {
+            self.selectedIndexPath = indexPath
+        }
+        
+        collectionView.reloadItems(at: updateIndexPaths)
     }
 }
 
