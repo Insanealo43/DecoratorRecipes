@@ -18,21 +18,57 @@ class ViewController: UIViewController {
     @IBOutlet weak var activityView: NVActivityIndicatorView!
     @IBOutlet weak var ingredientsCollectionView: UICollectionView!
     @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var recipesTableView: UITableView!
     @IBOutlet weak var tableHeightConstraint: NSLayoutConstraint!
     
-    internal var selectedIndexPath:IndexPath?
+    internal var selectedIndexPath:IndexPath? {
+        didSet {
+            if let indexPath = selectedIndexPath {
+                if oldValue != nil {
+                    // Tableview already showing
+                    self.fetchRecipes(forIndexPath: indexPath)
+                    
+                } else {
+                    // Animate tableview onto screen
+                    self.fetchRecipes(forIndexPath: indexPath)
+                }
+                
+            } else {
+                if oldValue != nil {
+                    // Animate tableview off the screen
+                    self.currentRecipes = []
+                }
+            }
+        }
+    }
     
     var ingredients:[StringObject] {
         get { return RecipesManager.sharedInstance.ingredients }
     }
+    
+    var currentRecipes = [StringObject]() {
+        didSet {
+            DispatchQueue.main.async {
+                self.recipesTableView.reloadData()
+            }
+        }
+    }
 
-    override func viewDidLoad() {
+    /*override func viewDidLoad() {
         super.viewDidLoad()
         
         //self.activityView.startAnimating()
+    }*/
+    
+    internal func fetchRecipes(forIndexPath indexPath:IndexPath) {
+        if let selectedIngredient = self.ingredients[indexPath.row][IngredientKeys.name] {
+            self.activityView.startAnimating()
+            RecipesManager.sharedInstance.fetchRecipes(forIngredient: selectedIngredient){ recipes in
+                self.activityView.stopAnimating()
+                self.currentRecipes = recipes
+            }
+        }
     }
-    
-    
 }
 
 extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
@@ -51,15 +87,18 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
         
         var updateIndexPaths = [indexPath]
         if let previousIndexPath = self.selectedIndexPath {
+            // Deselect previously selected ingredient
             if previousIndexPath == indexPath {
                 self.selectedIndexPath = nil
                 
             } else {
+                // Highlight newly selected ingredient
                 updateIndexPaths.append(previousIndexPath)
                 self.selectedIndexPath = indexPath
             }
             
         } else {
+            // Highlight newly selected ingredient
             self.selectedIndexPath = indexPath
         }
         
@@ -69,16 +108,16 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
 
 extension ViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return self.currentRecipes.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let recipeCell = tableView.dequeueReusableCell(withIdentifier: Constants.recipeCellId, for: indexPath) as! RecipeTableViewCell
-        
+        recipeCell.recipe = self.currentRecipes[indexPath.row]
         return recipeCell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: false)
     }
 }

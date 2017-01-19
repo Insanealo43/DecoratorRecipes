@@ -30,6 +30,7 @@ class RecipesManager {
     static let sharedInstance = RecipesManager()
     var ingredients = [StringObject]()
     var ingredientRecipes = [String:[StringObject]]()
+    var combinatoryWeightMaps = [String:[String:Int]]()
     
     internal enum Constants {
         static let Ingredients = "Ingredients"
@@ -65,19 +66,22 @@ class RecipesManager {
     // MARK - Recipes
     func getRecipes(query:String? = nil, ingredients:[String]? = nil, page:Int? = nil,
                     handler: @escaping ([StringObject]?) -> Void) {
-        var params = JSONObject()
+        var paramComponents = [String]()
         if let q = query {
-            params["q"] = q as AnyObject
+            paramComponents.append("q=\(q)")
         }
         if let i = ingredients?.joined(separator: ",") {
-            params["i"] = i as AnyObject
+            paramComponents.append("i=\(i)")
         }
         if let p = page {
-            params["p"] = p as AnyObject
+            paramComponents.append("p=\(p)")
         }
         
-        let url = Urls.RecipePuppyAPI.rawValue
-        NetworkAdapter.sharedInstance.request(url: url, method: .post, parameters: params){ response in
+        let queryString = paramComponents.joined(separator: "&").addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)
+        
+        let url = Urls.RecipePuppyAPI.rawValue + (queryString != nil ? ("?" + queryString!) : "")
+        
+        NetworkAdapter.sharedInstance.request(url: url, method: .post){ response in
             let recipeObjects = response?[Constants.results] as? [StringObject]
             handler(recipeObjects)
         }
@@ -89,6 +93,10 @@ class RecipesManager {
         
         // Check if the ingredient already has associated recipes
         if let cachedRecipes = self.ingredientRecipes[nameLowercased] {
+            // Find the most similar recipes
+            self.findSimilarRecipes(ingredient: nameLowercased, recipes: cachedRecipes)
+            
+            // Return the cached recipes
             handler(cachedRecipes)
             return
         }
