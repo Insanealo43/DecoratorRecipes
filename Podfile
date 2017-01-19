@@ -9,6 +9,5 @@ target 'DecoratorRecipes' do
   pod 'Alamofire'                       #Networking
   pod 'SDWebImage'                      #Async Image Loader
   pod 'NVActivityIndicatorView'       #Loading HUD
-  pod 'pop', '~> 1.0'                   #Animations
 
 end
